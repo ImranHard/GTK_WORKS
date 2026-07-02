@@ -1,0 +1,32 @@
+#include <gtk/gtk.h>
+
+int count = 0;
+
+
+void count_button(GtkWidget *wid, gpointer ptr)
+{
+	char buffer[30];
+	count++;
+	sprintf(buffer,"button pressed %d times", count);
+	gtk_label_set_text(GTK_LABEL(ptr), buffer);
+}
+
+void main(int argc, char *argv[])
+{
+	gtk_init(&argc, &argv);
+	GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	GtkWidget *btn1 = gtk_button_new_with_label("close window");
+	g_signal_connect(win, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(btn1, "clicked", G_CALLBACK(gtk_main_quit), NULL);
+	GtkWidget *lbl = gtk_label_new("label");
+	GtkWidget *btn2 = gtk_button_new_with_label("count button");
+	g_signal_connect(btn2,"clicked", G_CALLBACK(count_button), lbl);
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,5);
+
+	gtk_box_pack_start(GTK_BOX (box), btn1, TRUE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (box), lbl, TRUE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (box), btn2, TRUE, FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(win), box);
+	gtk_widget_show_all(win);
+	gtk_main();
+}

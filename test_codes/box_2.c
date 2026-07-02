@@ -1,0 +1,20 @@
+#include <gtk/gtk.h>
+
+void main(int argc, char *argv[])
+{
+	gtk_init(&argc, &argv);
+
+	GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	GtkWidget *btn = gtk_button_new_with_label("close window");
+
+	g_signal_connect(win,"delete_event", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(btn,"clicked", G_CALLBACK(gtk_main_quit), NULL);
+	GtkWidget *lbl = gtk_label_new ("my label");
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+	gtk_box_pack_start(GTK_BOX (box), lbl, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (box), btn, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER (win), box);
+	gtk_widget_show_all(win);
+	gtk_main();
+
+}
